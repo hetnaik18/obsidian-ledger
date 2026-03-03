@@ -1,0 +1,17 @@
+{
+  "name": "@obsidian-ledger/shared",
+  "version": "1.0.0",
+  "description": "Shared types for The Obsidian Ledger",
+  "main": "index.ts",
+  "types": "types.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./types": "./types.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.2"
+  }
+}
