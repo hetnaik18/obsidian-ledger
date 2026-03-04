@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Backend for The Obsidian Ledger - AI-powered documentation RPG",
   "main": "dist/server.js",
+  "type": "module",
   "scripts": {
     "predev": "npx kill-port 3001 || true",
-    "dev": "nodemon --exec ts-node src/server.ts",
+    "dev": "nodemon --loader ts-node/esm src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit"
