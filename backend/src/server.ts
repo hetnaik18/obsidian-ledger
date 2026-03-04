@@ -6,10 +6,10 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// FIX: Remove .js or .ts extensions completely here
-import ArchitectAgent from './agents/ArchitectAgent';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController';
-import ingestController from './controllers/ingestController';
+// STABLE FIX: Use .ts extensions for native Node 22 support
+import ArchitectAgent from './agents/ArchitectAgent.ts';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.ts';
+import ingestController from './controllers/ingestController.ts';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
