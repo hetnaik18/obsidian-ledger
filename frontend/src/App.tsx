@@ -1,6 +1,6 @@
 /**
  * The Obsidian Ledger - Main App Component
- * FINAL PRODUCTION FIX: Removed all localhost references
+ * FINAL PRODUCTION VERSION: Fixed missing state and removed localhost
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -8,11 +8,10 @@ import GameContainer from './components/GameContainer';
 import Sidebar from './components/Sidebar';
 import ConsoleTerminal from './components/ConsoleTerminal';
 import { PlayerState, WorldMap, DialogueEntry, LearningModule, Zone } from '@obsidian-ledger/shared/types';
-import { Terminal, FileCode } from 'lucide-react';
+import { Terminal } from 'lucide-react';
 
 const DEFAULT_CODE = `// Welcome to The Obsidian Ledger\nfunction startJourney() {\n  return "Scan your project to begin...";\n}`;
 
-// CRITICAL: This must be an empty string for Render
 const API_BASE = ""; 
 
 async function getFilesForZone(folderName: string): Promise<{ path: string; allFiles: string[] }> {
@@ -48,6 +47,7 @@ function App() {
   const [currentFolderName, setCurrentFolderName] = useState<string>('');
   const [currentCode, setCurrentCode] = useState<string>(DEFAULT_CODE);
   const [currentFilePath, setCurrentFilePath] = useState<string>('');
+  const [customPath, setCustomPath] = useState<string>(''); // Restored missing state
   const [terminalLogs, setTerminalLogs] = useState<Array<{id: number; timestamp: string; message: string; type: 'zone' | 'sage' | 'system' | 'player'}>>([]);
   const [showTerminal, setShowTerminal] = useState(true);
 
@@ -95,6 +95,7 @@ function App() {
   const handleScanProject = useCallback(async (useCustom?: boolean, customPathInput?: string) => {
     setIsScanning(true);
     const scanPath = useCustom && customPathInput ? customPathInput : '.';
+    addLog("Scanning: " + scanPath, 'system');
     try {
       const response = await fetch(`${API_BASE}/api/ingest`, { 
         method: 'POST', headers: { 'Content-Type': 'application/json' }, 
@@ -140,7 +141,7 @@ function App() {
         isScanning={isScanning} onScanProject={handleScanProject} 
         onQuerySage={handleQuerySage} onSubmitCode={async () => ({success: true})} 
         codeContent={currentCode} onCodeChange={setCurrentCode}
-        customPath={customPath} onCustomPathChange={setCustomPath}
+        customPath={customPath} onCustomPathChange={setCustomPath} // Now correctly linked
         currentModule={currentModule}
       />
     </div>
