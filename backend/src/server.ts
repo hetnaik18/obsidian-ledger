@@ -23,7 +23,7 @@ app.get('/health', (req, res) => res.json({ status: 'ok', port: PORT }));
 app.post(['/ingest', '/api/ingest'], (req, res) => ingestController.handleIngest(req, res));
 app.post(['/query-sage', '/api/query-sage'], (req, res) => handleQuerySage(req, res));
 
-// Updated path for finding frontend files
+// Point to the frontend dist
 const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
 if (fs.existsSync(frontendDistPath)) {
     app.use(express.static(frontendDistPath));
