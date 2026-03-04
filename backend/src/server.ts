@@ -1,6 +1,6 @@
 /**
  * The Obsidian Ledger - Backend Server
- * PRODUCTION READY: Fixed Imports and Pathing for Render
+ * PRODUCTION READY: Fixed Imports (no extensions) and Pathing for Render
  */
 
 import dotenv from 'dotenv';
@@ -12,10 +12,10 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Fixed Imports: Added .ts extension for ESM compatibility on Linux
-import ArchitectAgent from './agents/ArchitectAgent.ts';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.ts';
-import ingestController from './controllers/ingestController.ts';
+// Fixed Imports: Removed .ts extensions to prevent tsc compilation errors
+import ArchitectAgent from './agents/ArchitectAgent';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController';
+import ingestController from './controllers/ingestController';
 
 const app = express();
 
@@ -41,11 +41,19 @@ app.post('/api/list-files', (req: Request, res: Response) => {
   ingestController.handleListFiles(req, res);
 });
 
+/**
+ * POST /ingest - Architect Agent endpoint
+ */
 app.post(['/ingest', '/api/ingest'], (req: Request, res: Response) => {
+  console.log('📥 /ingest request received');
   ingestController.handleIngest(req, res);
 });
 
+/**
+ * POST /query-sage - Sage Agent endpoint
+ */
 app.post(['/query-sage', '/api/query-sage'], (req: Request, res: Response) => {
+  console.log('📥 /query-sage request received');
   handleQuerySage(req, res);
 });
 
@@ -86,7 +94,7 @@ if (fs.existsSync(frontendDistPath)) {
 
 // --- START SERVER ---
 app.listen(PORT_TO_USE, '0.0.0.0', () => {
-    console.log(`🟣 Server running on Port ${PORT_TO_USE}`);
+    console.log(`🟣 The Obsidian Ledger server running on Port ${PORT_TO_USE}`);
 });
 
 export default app;
