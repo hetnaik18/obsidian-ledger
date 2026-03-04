@@ -1,7 +1,6 @@
 {
   "name": "obsidian-ledger",
   "version": "1.0.0",
-  "description": "AI-powered platform that visualizes codebase complexity as a 2D RPG world",
   "private": true,
   "workspaces": [
     "shared",
@@ -10,22 +9,7 @@
   ],
   "scripts": {
     "install:all": "npm install",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "npm run dev -w backend",
-    "dev:frontend": "npm run dev -w frontend",
     "build": "npm run build -w backend && npm run build -w frontend",
-    "start": "npm start -w backend"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  },
-  "keywords": [
-    "rpg",
-    "education",
-    "gemini",
-    "ai",
-    "visualization"
-  ],
-  "author": "",
-  "license": "MIT"
+    "start": "node --experimental-strip-types backend/src/server.ts"
+  }
 }
