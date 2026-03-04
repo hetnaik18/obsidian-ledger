@@ -6,28 +6,26 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import ArchitectAgent from './agents/ArchitectAgent';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController';
-import ingestController from './controllers/ingestController';
+// CRITICAL FIX: Added .ts extensions for ESM compatibility on Render
+import ArchitectAgent from './agents/ArchitectAgent.ts';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.ts';
+import ingestController from './controllers/ingestController.ts';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// This ensures Render can find the port
 const PORT = process.env.PORT || 10000;
 
 app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json());
 
-// API Routes
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/health', (req, res) => res.json({ status: 'ok', port: PORT }));
 app.post(['/ingest', '/api/ingest'], (req, res) => ingestController.handleIngest(req, res));
 app.post(['/query-sage', '/api/query-sage'], (req, res) => handleQuerySage(req, res));
 app.get(['/api/file/read', '/file/read'], (req, res) => ingestController.handleReadFile(req, res));
 app.post('/api/list-files', (req, res) => ingestController.handleListFiles(req, res));
 
-// Serve Frontend Files
 const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
 if (fs.existsSync(frontendDistPath)) {
     app.use(express.static(frontendDistPath));
@@ -38,7 +36,6 @@ if (fs.existsSync(frontendDistPath)) {
     });
 }
 
-// Start Server on 0.0.0.0
 app.listen(Number(PORT), '0.0.0.0', () => {
     console.log(`🟣 Server running on Port ${PORT}`);
 });
