@@ -6,11 +6,12 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import ArchitectAgent from './agents/ArchitectAgent.js';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.js';
-import ingestController from './controllers/ingestController.js';
+// Simple, extensionless imports. TSX will find the .ts files.
+import ArchitectAgent from './agents/ArchitectAgent';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController';
+import ingestController from './controllers/ingestController';
+
 const app = express();
-// ... rest of your file stays the same
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 10000;
@@ -18,7 +19,7 @@ const PORT = process.env.PORT || 10000;
 app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json());
 
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/health', (req, res) => res.json({ status: 'ok', port: PORT }));
 app.post(['/ingest', '/api/ingest'], (req, res) => ingestController.handleIngest(req, res));
 app.post(['/query-sage', '/api/query-sage'], (req, res) => handleQuerySage(req, res));
 
