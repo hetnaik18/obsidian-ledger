@@ -6,10 +6,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Fixed Imports: No extensions needed with the revised tsconfig
-import ArchitectAgent from './agents/ArchitectAgent';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController';
-import ingestController from './controllers/ingestController';
+// CRITICAL FIX: Added .js extensions. 
+// Even though your files are .ts, ES Modules on Node require the .js extension in imports.
+import ArchitectAgent from './agents/ArchitectAgent.js';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.js';
+import ingestController from './controllers/ingestController.js';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -26,6 +27,7 @@ app.post(['/query-sage', '/api/query-sage'], (req, res) => handleQuerySage(req, 
 app.get(['/api/file/read', '/file/read'], (req, res) => ingestController.handleReadFile(req, res));
 app.post('/api/list-files', (req, res) => ingestController.handleListFiles(req, res));
 
+// Updated path to find your frontend files correctly on Render
 const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
 if (fs.existsSync(frontendDistPath)) {
     app.use(express.static(frontendDistPath));
