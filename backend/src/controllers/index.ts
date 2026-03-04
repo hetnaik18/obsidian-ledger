@@ -1,7 +1,7 @@
 /**
  * Backend Controllers
- * Placeholder for route controllers
  */
 
+// Use no extensions here - ts-node will resolve them
 export * from './ingestController';
 export * from './sageController';
