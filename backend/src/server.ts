@@ -6,15 +6,14 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// STABLE FIX: Use .ts extensions for native Node 22 support
-import ArchitectAgent from './agents/ArchitectAgent.ts';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.ts';
-import ingestController from './controllers/ingestController.ts';
+// STABLE FIX: Use .js extensions for the compiled output
+import ArchitectAgent from './agents/ArchitectAgent.js';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.js';
+import ingestController from './controllers/ingestController.js';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const PORT = process.env.PORT || 10000;
 
 app.use(cors({ origin: '*', credentials: true }));
@@ -23,9 +22,8 @@ app.use(express.json());
 app.get('/health', (req, res) => res.json({ status: 'ok', port: PORT }));
 app.post(['/ingest', '/api/ingest'], (req, res) => ingestController.handleIngest(req, res));
 app.post(['/query-sage', '/api/query-sage'], (req, res) => handleQuerySage(req, res));
-app.get(['/api/file/read', '/file/read'], (req, res) => ingestController.handleReadFile(req, res));
-app.post('/api/list-files', (req, res) => ingestController.handleListFiles(req, res));
 
+// Updated path for finding frontend files
 const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
 if (fs.existsSync(frontendDistPath)) {
     app.use(express.static(frontendDistPath));
