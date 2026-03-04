@@ -4,19 +4,14 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "lib": ["ES2022"],
-    "outDir": "dist",
-    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "@obsidian-ledger/shared/*": ["../shared/*"]
+    },
     "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
-    "paths": {
-      "@obsidian-ledger/shared": ["../shared/index.ts"],
-      "@obsidian-ledger/shared/*": ["../shared/*"]
-    }
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "../shared/**/*"]
 }
