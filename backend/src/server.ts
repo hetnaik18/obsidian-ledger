@@ -6,7 +6,6 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// STABLE FIX: Use .js extensions for the compiled output
 import ArchitectAgent from './agents/ArchitectAgent.js';
 import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.js';
 import ingestController from './controllers/ingestController.js';
@@ -19,16 +18,15 @@ const PORT = process.env.PORT || 10000;
 app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json());
 
-app.get('/health', (req, res) => res.json({ status: 'ok', port: PORT }));
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
 app.post(['/ingest', '/api/ingest'], (req, res) => ingestController.handleIngest(req, res));
 app.post(['/query-sage', '/api/query-sage'], (req, res) => handleQuerySage(req, res));
 
-// Point to the frontend dist
 const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
 if (fs.existsSync(frontendDistPath)) {
     app.use(express.static(frontendDistPath));
     app.get('*', (req, res) => {
-        if (!req.path.startsWith('/api') && !req.path.startsWith('/ingest')) {
+        if (!req.path.startsWith('/api')) {
             res.sendFile(path.join(frontendDistPath, 'index.html'));
         }
     });
