@@ -3,13 +3,18 @@
   "version": "1.0.0",
   "description": "AI-powered platform that visualizes codebase complexity as a 2D RPG world",
   "private": true,
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend"
+  ],
   "scripts": {
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "install:all": "npm install",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "build": "cd backend && npm run build && cd ../frontend && npm run build",
-    "start": "cd backend && npm start"
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "start": "node backend/src/server.ts"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
