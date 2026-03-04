@@ -6,16 +6,15 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Native Node 22 (Strip-Types) requires NO extensions for local imports
-import ArchitectAgent from './agents/ArchitectAgent';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController';
-import ingestController from './controllers/ingestController';
+// FINAL FIX: Added .ts extensions for Node 22 compatibility
+import ArchitectAgent from './agents/ArchitectAgent.ts';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.ts';
+import ingestController from './controllers/ingestController.ts';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Render uses Port 10000
 const PORT = process.env.PORT || 10000;
 
 app.use(cors({ origin: '*', credentials: true }));
