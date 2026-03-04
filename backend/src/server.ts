@@ -6,10 +6,10 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// CRITICAL FIX: Added .ts extensions for ESM compatibility on Render
-import ArchitectAgent from './agents/ArchitectAgent.ts';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.ts';
-import ingestController from './controllers/ingestController.ts';
+// Fixed Imports: No extensions needed with the revised tsconfig
+import ArchitectAgent from './agents/ArchitectAgent';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController';
+import ingestController from './controllers/ingestController';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
