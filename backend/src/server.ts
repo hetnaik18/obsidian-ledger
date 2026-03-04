@@ -6,11 +6,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// REMOVE THE .js EXTENSIONS HERE
-import ArchitectAgent from './agents/ArchitectAgent';
-import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController';
-import ingestController from './controllers/ingestController';
-
+import ArchitectAgent from './agents/ArchitectAgent.js';
+import { handleQuerySage, handleValidateCode, handleGetDialogueHistory, handleClearDialogue } from './controllers/sageController.js';
+import ingestController from './controllers/ingestController.js';
 const app = express();
 // ... rest of your file stays the same
 const __filename = fileURLToPath(import.meta.url);
